@@ -1,0 +1,8 @@
+backend/
+safe-tool/
+marketing-assets/
+system-prompts/
+*.md
+__pycache__/
+venv/
+.env
