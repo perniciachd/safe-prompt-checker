@@ -33,8 +33,8 @@ from tenacity import (
     before_sleep_log,
 )
 
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
-DEFAULT_MODEL = os.getenv("LLM_MODEL", "gpt-4.1-mini")
+LLM_PROVIDER = os.getenv("LLM_PROVIDER") or "openai"
+DEFAULT_MODEL = os.getenv("LLM_MODEL") or "gpt-4.1-mini"
 
 # Tenacity's before_sleep_log expects a stdlib logging.Logger (tenacity is
 # a generic library that doesn't know about structlog). Because we've
