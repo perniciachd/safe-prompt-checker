@@ -56,7 +56,6 @@ class handler(BaseHTTPRequestHandler):
                     request_id,
                     started_at,
                 )
-            raise RuntimeError("deliberate test crash in rewrite")
             result = rewrite_prompt(user_prompt, detection_result, CRAFT_REWRITER_V1_0)
             status = 500 if "error" in result else 200
             return self._send_json(result, status, request_id, started_at)
