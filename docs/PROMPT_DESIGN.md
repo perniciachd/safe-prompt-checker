@@ -53,6 +53,8 @@ After running Test 1 and Test 2 through both Claude and ChatGPT (GPT-4 class), C
 
 ChatGPT produces respectable output when the prompt is well engineered, but the gap widens on higher-stakes prompts (Test 2 showed a meaningful divergence). For a tool whose value proposition is the quality of its analysis, that gap matters.
 
+**Production deployment note (May 2026):** Claude is the quality-preferred model based on Tests 1–3. Current production deployment uses OpenAI's gpt-4.1-mini due to API cost constraints during MVP development. The quality gap documented in Section 6 represents the cost of this tradeoff. The eval scaffold (`scripts/run_evals.py`) measures the production model's behaviour and will surface the gap as expected. Migration to Claude as production is an explicit upgrade path once budget permits or revenue justifies the cost.
+
 ### 3.2 Separation of Concerns
 
 The system prompt handles detection. A separate system prompt (to be built next) will handle rewriting. A third layer will handle UI presentation. This separation lets us iterate on each stage independently.
@@ -507,7 +509,7 @@ ChatGPT consistently performs well on:
 3. Reasonable risk score outputs
 4. Standard sanitisation guidance
 
-The architectural decision to use Claude as the production model is now confirmed by evidence rather than initial impression.
+The architectural decision that Claude is the quality-optimal model is now confirmed by evidence rather than initial impression. Production deployment currently uses gpt-4.1-mini for cost reasons (see Section 3.1 production note); the quality gap is tracked in the eval scaffold and represents the documented cost of the budget-driven choice.
 
 ---
 
@@ -524,6 +526,7 @@ Test prompts and ground truth defined in conversation history. To be added to th
 | Initial | 1.0 | First general draft | Project start | Established taxonomy |
 | Industry pivot | 1.1 | Replaced taxonomy with finance-specific categories | Decision to target finance first | 10 industry-specific categories defined |
 | Post Test 1 | 1.2 | Added three discipline clauses | Test 1 revealed duplication, miscategorisation, generic citations | Eliminated duplication, hardened classification, regulatory citations now specific |
+| May 16 2026 | 1.2 (doc only) | Reconciled production model documentation with eval reality | Eval scaffold runs against gpt-4.1-mini for cost reasons; doc previously implied Claude was deployed in production | Sections 3.1, 6.3.6, 8.4 updated; system prompt itself unchanged |
 
 ---
 
@@ -546,7 +549,7 @@ When finance is fully validated, the same architecture applies to healthcare. Th
 ### 8.4 Production Architecture
 
 - Frontend: React or similar, two main screens (input, results comparison)
-- Backend: API layer calling Anthropic Claude API as primary, OpenAI as fallback
+- Backend: API layer calling OpenAI gpt-4.1-mini as current production model; Anthropic Claude API as quality-preferred upgrade path when budget permits or revenue justifies the cost
 - Storage: Minimal session metadata only, no prompt content
 - Hosting: Cloud deployment to be decided based on data residency requirements (Indian customers may require Indian hosting)
 
